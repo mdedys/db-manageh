@@ -1,65 +1,83 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from "next/head"
+
+import { withStyles } from "@material-ui/core/styles"
+import MuiContainer from "@material-ui/core/Container"
+import MuiTextField from "@material-ui/core/TextField"
+
+import useInput from "../hooks/useInput"
+
+const Container = withStyles({
+  root: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    justifyContent: "center",
+    padding: "1rem",
+  },
+})(MuiContainer)
+
+const TextField = withStyles({
+  root: {
+    marginBottom: "1.5rem",
+  },
+})(MuiTextField)
 
 export default function Home() {
+  const [username, onChangeUsername] = useInput("")
+  const [password, onChangePassword] = useInput("")
+  const [server, onChangeServer] = useInput("")
+  const [database, onChangeDatabase] = useInput("")
+  const [port, onChangePort] = useInput("5432")
+
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>db manageh</title>
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+      <Container maxWidth="sm">
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Database Server"
+          placeholder="Database Server"
+          value={server}
+          onChange={onChangeServer}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Database"
+          placeholder="Database"
+          value={database}
+          onChange={onChangeDatabase}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Port"
+          placeholder="Port"
+          value={port}
+          onChange={onChangePort}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Username"
+          placeholder="Username"
+          value={username}
+          onChange={onChangeUsername}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Password"
+          type="password"
+          placeholder="Password"
+          password={password}
+          onChange={onChangePassword}
+        />
+      </Container>
+    </>
   )
 }
