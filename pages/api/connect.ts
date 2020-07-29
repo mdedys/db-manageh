@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
-import db from "../../engines/postgres"
-import { handler, Routes } from "../../utils/api"
+import db from "../../server/engines/postgres"
+import { handler, Routes } from "../../server/utils/api"
 
 interface ConnectPayload {
   server: string
