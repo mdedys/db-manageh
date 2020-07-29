@@ -1,5 +1,6 @@
 import Head from "next/head"
 
+import DatabaseProvider from "../client/contexts/database"
 import "../styles/globals.css"
 
 function App({ Component, pageProps }) {
@@ -13,7 +14,9 @@ function App({ Component, pageProps }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Component {...pageProps} />
+      <DatabaseProvider>
+        <Component {...pageProps} />
+      </DatabaseProvider>
     </>
   )
 }

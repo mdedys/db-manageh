@@ -1,40 +1,42 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
-import db from "../../server/engines/postgres"
+import buildEngine from "../../server/engines/factory"
 import { handler, Routes } from "../../server/utils/api"
+import { serializeCookie } from "../../server/utils/cookies"
 
 interface ConnectPayload {
-  server: string
+  host: string
   port: number
   database: string
-  username: string
+  user: string
   password: string
 }
 
 async function createConnection(req: NextApiRequest, res: NextApiResponse) {
-  const {
-    server,
-    database,
-    port,
-    username,
-    password,
-  } = req.body as ConnectPayload
+  const { host, database, port, user, password } = req.body as ConnectPayload
+  console.log("req.body: ", req.body)
 
-  if (!server || !database || !username || !password) {
+  if (!host || !database || !user || !password) {
     res.status(400).json({ message: "Bad Request" })
     return
   }
 
-  const client = await db.connect({
-    host: server,
+  const db = buildEngine("postgres", {
+    host,
     database,
-    user: username,
+    user,
     password: password,
     port: port,
   })
 
-  const schema = await client.query(db.queries.readSchema)
-  res.status(200).json({ tables: schema.rows || [] })
+  await db.connect()
+
+  res.setHeader(
+    "Set-Cookie",
+    serializeCookie({ host, database, user, password, port })
+  )
+
+  res.status(204).end()
 }
 
 const routes: Routes = {

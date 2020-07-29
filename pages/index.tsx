@@ -1,10 +1,14 @@
+import React from "react"
 import Head from "next/head"
+import { useRouter } from "next/router"
 
 import { withStyles } from "@material-ui/core/styles"
+import MuiButton from "@material-ui/core/Button"
 import MuiContainer from "@material-ui/core/Container"
 import MuiTextField from "@material-ui/core/TextField"
 
-import useInput from "../hooks/useInput"
+import useInput from "../client/hooks/useInput"
+import ConnectAPI from "../client/services/connect"
 
 const Container = withStyles({
   root: {
@@ -24,11 +28,25 @@ const TextField = withStyles({
 })(MuiTextField)
 
 export default function Home() {
-  const [username, onChangeUsername] = useInput("")
+  const router = useRouter()
+
+  const [user, onChangeUser] = useInput("")
   const [password, onChangePassword] = useInput("")
-  const [server, onChangeServer] = useInput("")
+  const [host, onChangeHost] = useInput("")
   const [database, onChangeDatabase] = useInput("")
   const [port, onChangePort] = useInput("5432")
+
+  const onConnect = () => {
+    ConnectAPI.connect({
+      user,
+      password,
+      host,
+      database,
+      port: parseInt(port),
+    }).then(() => {
+      router.push(`/database/${database}?engine=pg`)
+    })
+  }
 
   return (
     <>
@@ -41,8 +59,8 @@ export default function Home() {
           variant="outlined"
           label="Database Server"
           placeholder="Database Server"
-          value={server}
-          onChange={onChangeServer}
+          value={host}
+          onChange={onChangeHost}
         />
         <TextField
           fullWidth
@@ -65,8 +83,8 @@ export default function Home() {
           variant="outlined"
           label="Username"
           placeholder="Username"
-          value={username}
-          onChange={onChangeUsername}
+          value={user}
+          onChange={onChangeUser}
         />
         <TextField
           fullWidth
@@ -74,9 +92,10 @@ export default function Home() {
           label="Password"
           type="password"
           placeholder="Password"
-          password={password}
+          value={password}
           onChange={onChangePassword}
         />
+        <MuiButton onClick={onConnect}>Connect</MuiButton>
       </Container>
     </>
   )
