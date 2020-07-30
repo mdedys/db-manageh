@@ -1,12 +1,26 @@
 import React from "react"
 import { NextPageContext } from "next"
 
+import SchemaTable from "../../client/components/database/SchemaTable"
 import buildEngine from "../../server/engines/factory"
 import { CONFIG_COOKIE, getCookie } from "../../server/utils/cookies"
+import { Schema } from "../../server/engines/engine"
 
-export default function Database(props) {
-  console.log("props: ", props)
-  return <div>Hello!</div>
+interface DatabaseProps {
+  connected: boolean
+  schema: Schema
+}
+
+export default function Database(props: DatabaseProps) {
+  return (
+    <div>
+      <SchemaTable
+        tables={props.schema.tables.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        )}
+      />
+    </div>
+  )
 }
 
 export async function getServerSideProps(ctx: NextPageContext) {
