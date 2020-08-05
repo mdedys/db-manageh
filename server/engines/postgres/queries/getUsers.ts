@@ -13,7 +13,7 @@ SELECT usename as username,
 FROM pg_catalog.pg_user
 ORDER BY username desc;
 `
-export type UserSchema = {
+export type UserSchemaRow = {
   username: string
   role_attributes: string
 }
