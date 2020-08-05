@@ -1,6 +1,6 @@
 DB Admin tool built with NextJS
 
-![Build Status](https://github.com/mdedys/db-manageh/workflows/CI/badge.svg)
+![Build Status](https://github.com/mdedys/db-manageh/workflows/Build/badge.svg)
 
 ## Getting Started
 
