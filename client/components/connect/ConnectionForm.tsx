@@ -46,6 +46,8 @@ export default function ConnectionForm(props: ConnectionFormProps) {
       save
     )
 
+  const disabled = !user || !password || !host || !database || !port
+
   return (
     <Container elevation={4}>
       <TextField
@@ -102,7 +104,12 @@ export default function ConnectionForm(props: ConnectionFormProps) {
           label="Save Connection"
         />
       </div>
-      <Button variant="contained" color="primary" onClick={onClickConnect}>
+      <Button
+        variant="contained"
+        color="primary"
+        disabled={disabled}
+        onClick={onClickConnect}
+      >
         Connect
       </Button>
     </Container>
