@@ -12,7 +12,6 @@ interface DatabaseProps {
 }
 
 export default function Database(props: DatabaseProps) {
-  console.log("props: ", props)
   return (
     <div>
       <SchemaTable
