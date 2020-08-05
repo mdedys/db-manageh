@@ -11,8 +11,23 @@ export interface Table extends Resource {
   catalog: string
 }
 
+export interface User extends Resource {
+  type: "user"
+  username: string
+  roles: string[]
+}
+
+export interface Routine extends Resource {
+  type: "routine"
+  name: string
+  routineType: string
+  dataType: string
+}
+
 export interface Schema {
+  routines: Routine[]
   tables: Table[]
+  users: User[]
 }
 
 export default abstract class Engine<T> {
